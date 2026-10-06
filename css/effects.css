@@ -1,0 +1,235 @@
+/* =========================================================
+   effects.css｜Hover、導覽列互動、捲動效果（階段 5）
+   ========================================================= */
+
+/* ---------------------------------------------------------
+   作品 Hover：像把貼紙撕起來
+   ① 傾斜轉正  ② 抬起放大  ③ 陰影變深  ④ 右下角掀起  ⑤ 便條浮現
+   觸控裝置用 .is-touched（點一下）達到同樣效果
+   --------------------------------------------------------- */
+.card__sticker {
+  transition:
+    rotate .45s var(--ease-pop),
+    transform .45s var(--ease-pop),
+    box-shadow .35s ease;
+}
+.card__sticker:hover,
+.card__sticker:focus-visible,
+.card.is-touched .card__sticker {
+  rotate: 0deg;
+  transform: translateY(-8px) scale(1.04);
+  box-shadow: var(--shadow-lifted);
+  z-index: 2;
+}
+
+/* ④ 掀起的一角：紙張背面＋露出底下的方格紙 */
+.card__peel {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 46px;
+  height: 46px;
+  border-bottom-right-radius: var(--radius-sticker);
+  border-top-left-radius: 14px;
+  background: linear-gradient(315deg, var(--paper) 0 49%, #ffffff 51%, #ebe4dc 100%);
+  box-shadow: -4px -4px 8px -2px rgba(60, 30, 30, .22);
+  transform: scale(0);
+  transform-origin: 100% 100%;
+  transition: transform .35s var(--ease-pop) .05s;
+  pointer-events: none;
+}
+.card__sticker:hover .card__peel,
+.card__sticker:focus-visible .card__peel,
+.card.is-touched .card__peel { transform: scale(1); }
+
+/* ⑤ 浮現的便條 */
+.card__note {
+  position: absolute;
+  left: 16px;
+  bottom: 16px;
+  max-width: calc(100% - 80px);
+  padding: 4px 12px;
+  border-radius: 4px;
+  background: var(--paper-2);
+  box-shadow: var(--shadow-sticker);
+  font-family: var(--font-display);
+  font-size: var(--fs-sm);
+  color: var(--ink);
+  opacity: 0;
+  transform: translateY(14px) rotate(-3deg);
+  transition: opacity .3s ease, transform .4s var(--ease-pop);
+  pointer-events: none;
+}
+.card__note .script { color: var(--card-main); font-size: 1.25em; }
+.card__sticker:hover .card__note,
+.card__sticker:focus-visible .card__note,
+.card.is-touched .card__note { opacity: 1; transform: translateY(0) rotate(-3deg); }
+
+/* ---------------------------------------------------------
+   導覽列：紙膠帶連結＋螢光筆底線
+   --------------------------------------------------------- */
+.site-nav {
+  transition:
+    opacity .7s var(--ease-out) var(--d, 0s),
+    transform .8s var(--ease-out) var(--d, 0s),
+    background-color .3s ease,
+    box-shadow .3s ease;
+}
+.site-nav .container { transition: min-height .3s ease; }
+/* 非首頁一開始就有底色，避免導覽列壓在作品大圖上看不清楚 */
+body:not(.page-home) .site-nav,
+.site-nav.is-scrolled {
+  background-color: color-mix(in srgb, var(--paper) 86%, transparent);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 6px 20px -14px rgba(60, 30, 30, .5);
+}
+.site-nav.is-scrolled .container { min-height: 60px; }
+
+.nav-links a {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 4px 14px;
+  font-family: var(--font-script);
+  font-size: 1.35rem;
+  font-weight: 700;
+  line-height: 1;
+  text-decoration: none;
+  /* 每段紙膠帶 */
+  background:
+    repeating-linear-gradient(90deg, color-mix(in srgb, var(--theme-main) 14%, transparent) 0 5px, transparent 5px 11px),
+    color-mix(in srgb, var(--theme-main) 7%, rgba(255, 255, 255, .7));
+  clip-path: polygon(0 10%, 5% 0, 100% 0, 96% 20%, 100% 45%, 96% 70%, 100% 100%, 4% 100%, 0 75%, 4% 50%);
+  rotate: var(--r, -1.5deg);
+  transition: transform .3s var(--ease-pop), rotate .3s var(--ease-pop), color .2s;
+}
+.nav-links li:nth-child(even) a { --r: 1.5deg; }
+.nav-links a:hover { rotate: 0deg; transform: translateY(-3px); color: var(--theme-main); }
+
+/* 螢光筆底線：目前所在的區塊或頁面，從左往右畫出 */
+.nav-links a::after {
+  content: "";
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  bottom: 9px;
+  height: 9px;
+  border-radius: 4px;
+  background: color-mix(in srgb, var(--theme-accent) 60%, transparent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .4s var(--ease-out);
+  z-index: -1;
+}
+.nav-links a[aria-current] { color: var(--theme-main); }
+.nav-links a[aria-current]::after { transform: scaleX(1); }
+.nav-links a { isolation: isolate; }
+
+/* 漢堡選單按鈕（手機） */
+.nav-toggle {
+  display: none;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border: 3px solid var(--white);
+  border-radius: 50%;
+  background: var(--theme-main);
+  box-shadow: var(--shadow-sticker);
+}
+.nav-toggle span,
+.nav-toggle span::before,
+.nav-toggle span::after {
+  display: block;
+  width: 18px;
+  height: 2.5px;
+  border-radius: 2px;
+  background: var(--white);
+  transition: transform .3s ease, background-color .2s;
+}
+.nav-toggle span { position: relative; }
+.nav-toggle span::before,
+.nav-toggle span::after { content: ""; position: absolute; left: 0; }
+.nav-toggle span::before { top: -6px; }
+.nav-toggle span::after { top: 6px; }
+.nav-toggle[aria-expanded="true"] span { background: transparent; }
+.nav-toggle[aria-expanded="true"] span::before { transform: translateY(6px) rotate(45deg); }
+.nav-toggle[aria-expanded="true"] span::after { transform: translateY(-6px) rotate(-45deg); }
+
+@media (max-width: 767px) {
+  .nav-toggle { display: grid; }
+  .site-nav nav {
+    position: absolute;
+    top: 100%;
+    left: 16px;
+    right: 16px;
+    padding: 16px;
+    border-radius: 18px;
+    background: var(--paper-2);
+    box-shadow: var(--shadow-lifted);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: opacity .25s ease, transform .3s var(--ease-out), visibility 0s linear .3s;
+  }
+  .site-nav.is-menu-open nav { opacity: 1; visibility: visible; transform: none; transition-delay: 0s; }
+  .nav-links { flex-direction: column; gap: 10px; }
+  .nav-links a { width: 100%; font-size: 1.6rem; min-height: 52px; }
+  /* 選項像貼紙一張張滑入 */
+  .nav-links li { opacity: 0; transform: translateX(-24px); transition: opacity .3s ease, transform .4s var(--ease-pop); }
+  .site-nav.is-menu-open .nav-links li { opacity: 1; transform: none; }
+  .site-nav.is-menu-open .nav-links li:nth-child(2) { transition-delay: .06s; }
+  .site-nav.is-menu-open .nav-links li:nth-child(3) { transition-delay: .12s; }
+  .site-nav.is-menu-open .nav-links li:nth-child(4) { transition-delay: .18s; }
+  .site-nav.is-menu-open .nav-links li:nth-child(5) { transition-delay: .24s; }
+}
+
+/* ---------------------------------------------------------
+   捲動效果
+   ① 貼上：卡片進入畫面時從歪斜、下方「貼」到定位
+   ② 紙膠帶標題：由左往右展開
+   ③ 視差貼紙：translate 由 JS 寫入 --py
+   ④ 閱讀進度條（紙膠帶）
+   只有「載入時不在畫面內」的元素才會被設成隱藏，所以首屏永遠是完整的。
+   --------------------------------------------------------- */
+.reveal-stick {
+  transition: opacity .6s ease, transform .7s var(--ease-pop);
+}
+.reveal-stick.is-waiting { opacity: 0; transform: translateY(40px) rotate(-8deg) scale(.96); }
+
+.reveal-up {
+  transition: opacity .7s ease, transform .8s var(--ease-out);
+}
+.reveal-up.is-waiting { opacity: 0; transform: translateY(32px); }
+
+.section-head .tape {
+  transform-origin: left center;
+  transition: transform .9s var(--ease-out) .15s;
+}
+.section-head .tape.is-waiting { transform: scaleX(0); }
+
+[data-speed] { translate: 0 var(--py, 0px); will-change: translate; }
+
+/* 背景散落的大貼紙（視差用） */
+.float-sticker {
+  position: absolute;
+  z-index: 0;
+  pointer-events: none;
+  rotate: var(--r, 0deg);
+}
+.section { position: relative; }
+.section > .container { position: relative; z-index: 1; }
+
+.progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 60;
+  height: 6px;
+  background:
+    repeating-linear-gradient(90deg, color-mix(in srgb, var(--theme-main) 70%, transparent) 0 6px, color-mix(in srgb, var(--theme-main) 35%, transparent) 6px 12px);
+  transform: scaleX(var(--progress, 0));
+  transform-origin: left;
+  pointer-events: none;
+}

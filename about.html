@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>關於｜Ame 雨音 貼紙手帳</title>
+  <meta name="description" content="關於虛構藝術家 Ame 雨音與四位角色，以及作品的 AI 協作說明。">
+  <script>document.documentElement.classList.add('js');</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=LXGW+WenKai+TC:wght@400;700&family=Noto+Sans+TC:wght@400;500;700&display=swap">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/hero.css">
+  <link rel="stylesheet" href="css/gallery.css">
+  <link rel="stylesheet" href="css/lightbox.css">
+  <link rel="stylesheet" href="css/effects.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body data-page="about">
+
+  <header class="site-nav" id="siteNav">
+    <div class="container">
+      <a class="logo" href="index.html#home" aria-label="Ame 雨音 首頁">
+        <svg class="heart" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 28s-11-6.6-11-15A6 6 0 0 1 16 9a6 6 0 0 1 11 4c0 8.4-11 15-11 15z" fill="#f19ab0" stroke="#fff" stroke-width="3" paint-order="stroke"/></svg>
+        <span class="script">Ame</span> 雨音
+      </a>
+      <nav aria-label="主要導覽">
+        <ul class="nav-links">
+          <li><a href="index.html#home" data-section="home">Home</a></li>
+          <li><a href="index.html#works" data-section="works">Works</a></li>
+          <li><a href="index.html#exhibition" data-section="exhibition">Exhibition</a></li>
+          <li><a href="about.html" data-page="about">About</a></li>
+          <li><a href="contact.html" data-page="contact">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page-top">
+    <span class="float-sticker dot-sticker" style="--size:72px; top:110px; right:6%; --r:12deg" data-speed="0.5" aria-hidden="true">🥰</span>
+    <div class="container">
+      <header class="page-title">
+        <span class="eyebrow">about</span>
+        <h1>關於 Ame 雨音</h1>
+        <span class="tape" aria-hidden="true"></span>
+      </header>
+
+      <div class="about-intro">
+        <div class="note reveal-up">
+          <p class="about-quote">「把每一天的心情做成貼紙，收進手帳裡。」</p>
+          <p>Ame 雨音是一位虛構的插畫家。她筆下有四位女孩：Midori、Sumire、Shiro 和 Mimi，每個人都有自己的配色、格紋和一疊表情貼紙。</p>
+          <p>這個作品集把網站本身做成一本拼貼手帳：方格紙是桌面，作品是白邊貼紙，紙膠帶負責固定和分段。切換角色時，整本手帳會換成她的顏色。</p>
+        </div>
+        <div class="face-collage" aria-hidden="true">
+          <span class="dot-sticker" style="--size:46%; top:4%; left:6%; rotate:-8deg; border:5px solid #1e9e6e" data-speed="0.25"><img src="images/face-midori.jpg" alt=""></span>
+          <span class="dot-sticker" style="--size:40%; top:10%; right:4%; rotate:10deg; border:5px solid #c9a646" data-speed="0.4"><img src="images/face-sumire.jpg" alt=""></span>
+          <span class="dot-sticker" style="--size:42%; bottom:4%; left:14%; rotate:6deg; border:5px solid #5fb3a1" data-speed="0.35"><img src="images/face-shiro.jpg" alt=""></span>
+          <span class="dot-sticker" style="--size:38%; bottom:10%; right:8%; rotate:-10deg; border:5px solid #f19ab0" data-speed="0.5"><img src="images/face-mimi.jpg" alt=""></span>
+        </div>
+      </div>
+    </div>
+
+    <section class="section" aria-labelledby="charsTitle">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">characters</span>
+          <h2 id="charsTitle">四位女孩的名片</h2>
+          <span class="tape" aria-hidden="true"></span>
+          <p class="reveal-up">滑鼠移上去或點一下，名片會翻到背面。</p>
+        </div>
+        <ul class="cards4" id="charCards"></ul>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="aiTitle">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">made with AI</span>
+          <h2 id="aiTitle">關於作品與 AI 協作</h2>
+          <span class="tape" aria-hidden="true"></span>
+        </div>
+        <div class="statement reveal-up">
+          <p><strong>Ame 雨音是虛構藝術家，本站作品皆由 AI 生成。</strong>網站的設計、互動與程式由 <span data-designer>（你的名字）</span> 與 AI 協作完成，每個階段都保留了提示詞、AI 產出與修改紀錄。</p>
+          <ol class="flow">
+            <li><strong>AI Prompt</strong><span>寫下風格、版面與動畫數值</span></li>
+            <li><strong>AI Output</strong><span>保存 AI 產生的原始版本</span></li>
+            <li><strong>修改</strong><span>調整顏色、速度、角度與版面</span></li>
+            <li><strong>最終成果</strong><span>部署上線，桌機與手機實測</span></li>
+          </ol>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span><span class="script">Ame</span> 雨音 · sticker diary 2026</span>
+      <span>Ame 雨音為虛構藝術家，作品皆由 AI 生成 · 網站設計 <span data-designer>（你的名字）</span> × AI</span>
+    </div>
+  </footer>
+
+  <script src="js/works.js"></script>
+  <script src="js/about.js"></script>
+  <script src="js/effects.js"></script>
+</body>
+</html>

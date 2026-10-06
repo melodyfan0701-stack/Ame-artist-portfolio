@@ -1,0 +1,118 @@
+/* =========================================================
+   responsive.css｜響應式（階段 7）
+   斷點：桌機 ≥1024px、平板 768–1023px、手機 <768px（小手機 <560px）
+   ========================================================= */
+
+/* 散落貼紙、旋轉的元素超出畫面時，裁掉而不是產生橫向捲軸
+   （clip 不會建立捲動容器，所以展牆的 sticky 仍然有效） */
+main, .site-footer { overflow-x: clip; }
+
+/* ---------------------------------------------------------
+   平板以下
+   --------------------------------------------------------- */
+@media (max-width: 1023px) {
+  .hero { min-height: auto; padding-bottom: 96px; }
+  .hero .container { grid-template-columns: minmax(0, 1fr); }
+  .hero-collage { width: min(100%, 500px); margin-bottom: 36px; }
+  .hero-text { max-width: 560px; }
+  .hero-sub { max-width: 40ch; }
+
+  .gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+  /* Lightbox：圖在上、便條紙在下，可上下捲動 */
+  .lightbox { align-items: start; overflow-y: auto; }
+  .lightbox__panel {
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: center;
+    max-height: none;
+    padding-block: 64px 88px;
+  }
+  .lightbox__figure { justify-self: center; }
+  .lightbox__figure img { max-height: 56svh; }
+  .lightbox__note { width: min(100%, 520px); max-height: none; }
+  .lightbox__prev,
+  .lightbox__next { position: fixed; top: auto; bottom: max(16px, env(safe-area-inset-bottom, 0px)); translate: none; }
+
+  .spread { grid-template-columns: minmax(0, 1fr); }
+  .spread::before { display: none; }
+  .spread__page--image { order: -1; padding-bottom: 0; }
+
+  .more-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .more-grid li:nth-child(n) button { translate: none; }
+
+  .about-intro { grid-template-columns: minmax(0, 1fr); }
+  .face-collage { width: min(100%, 340px); }
+  .cards4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .flow { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+  .hello { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* ---------------------------------------------------------
+   手機
+   --------------------------------------------------------- */
+@media (max-width: 767px) {
+  :root { --fs-hero: clamp(2rem, 1.3rem + 4vw, 2.6rem); }
+
+  /* Hero：圖在上、文字在下 */
+  .hero { padding-top: calc(80px + env(safe-area-inset-top, 0px)); padding-bottom: 118px; }
+  .hero-collage { order: -1; width: min(92%, 400px); }
+  .hero-title { font-size: var(--fs-hero); }
+  .hero-sub { font-size: var(--fs-md); }
+  .hero-actions .btn-sticker { font-size: var(--fs-md); }
+
+  /* 散落的貼紙減半，避免畫面太亂 */
+  .deco:nth-of-type(even),
+  .float-sticker { display: none; }
+
+  /* 卡片傾斜角度縮小 */
+  .card__sticker { rotate: calc(var(--tilt, 0deg) * .5); }
+
+  /* 分類標籤：一排可以左右滑 */
+  .gallery-bar { flex-direction: column; align-items: stretch; gap: 10px; border-bottom: 0; }
+  .tabs {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-top: 6px;
+    border-bottom: 3px solid var(--theme-main);
+    scrollbar-width: none;
+  }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab { flex: 0 0 auto; }
+  .gallery-tools { justify-content: space-between; padding-bottom: 0; }
+
+  .lightbox__note h2 { font-size: var(--fs-xl); }
+  .round-btn { width: 48px; height: 48px; }
+
+  .fs__stage { padding: 16px 12px 96px; }
+  .fs__img { border-width: 5px; }
+  .fs__hint { display: none; }
+  .fs__caption { left: 16px; right: 16px; font-size: var(--fs-md); }
+
+  .detail-hero { height: clamp(220px, 42vh, 360px); }
+  .pager { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .pager .btn-ghost { grid-column: 1 / -1; grid-row: 2; justify-self: center; }
+
+  .postcard { grid-template-columns: minmax(0, 1fr); rotate: 0deg; }
+  .postcard__left { padding-right: 0; padding-bottom: 20px; border-right: 0; border-bottom: 2px solid color-mix(in srgb, var(--ink) 18%, transparent); }
+  .postcard__right { padding-left: 0; padding-top: 20px; }
+  .postcard__stampbox { position: absolute; top: 14px; right: 14px; width: 64px; height: 76px; }
+  .postcard .btn-sticker { justify-self: start; }
+  .stamp-mark { right: 8%; top: 40%; width: 130px; height: 130px; font-size: 1.5rem; }
+  .contact-extra { grid-template-columns: minmax(0, 1fr); }
+
+  .site-footer .container { flex-direction: column; align-items: flex-start; }
+}
+
+/* ---------------------------------------------------------
+   小手機
+   --------------------------------------------------------- */
+@media (max-width: 559px) {
+  .gallery { grid-template-columns: minmax(0, 1fr); }
+  .cards4 { grid-template-columns: minmax(0, 1fr); }
+  .flip__btn { aspect-ratio: 4 / 3; }
+  .flip__face--front .dot-sticker { --size: 96px; }
+  .flow { grid-template-columns: minmax(0, 1fr); }
+  .more-grid { gap: 14px; }
+  .booth__works { gap: 6px; }
+}

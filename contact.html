@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>聯絡｜Ame 雨音 貼紙手帳</title>
+  <meta name="description" content="寄一張明信片給 Ame 雨音。">
+  <script>document.documentElement.classList.add('js');</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=LXGW+WenKai+TC:wght@400;700&family=Noto+Sans+TC:wght@400;500;700&display=swap">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/hero.css">
+  <link rel="stylesheet" href="css/gallery.css">
+  <link rel="stylesheet" href="css/lightbox.css">
+  <link rel="stylesheet" href="css/effects.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body data-page="contact">
+
+  <header class="site-nav" id="siteNav">
+    <div class="container">
+      <a class="logo" href="index.html#home" aria-label="Ame 雨音 首頁">
+        <svg class="heart" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 28s-11-6.6-11-15A6 6 0 0 1 16 9a6 6 0 0 1 11 4c0 8.4-11 15-11 15z" fill="#f19ab0" stroke="#fff" stroke-width="3" paint-order="stroke"/></svg>
+        <span class="script">Ame</span> 雨音
+      </a>
+      <nav aria-label="主要導覽">
+        <ul class="nav-links">
+          <li><a href="index.html#home" data-section="home">Home</a></li>
+          <li><a href="index.html#works" data-section="works">Works</a></li>
+          <li><a href="index.html#exhibition" data-section="exhibition">Exhibition</a></li>
+          <li><a href="about.html" data-page="about">About</a></li>
+          <li><a href="contact.html" data-page="contact">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page-top">
+    <span class="float-sticker dot-sticker" style="--size:70px; top:120px; right:7%; --r:-10deg" data-speed="0.5" aria-hidden="true">💌</span>
+    <div class="container">
+      <header class="page-title">
+        <span class="eyebrow">contact</span>
+        <h1>寄一張明信片</h1>
+        <span class="tape" aria-hidden="true"></span>
+        <p>合作邀約、展覽，或只是想打聲招呼。寫好按下寄出，Ame 會蓋上郵戳。</p>
+      </header>
+
+      <form class="postcard" id="postcard" novalidate>
+        <div class="postcard__left">
+          <div class="field" data-field="message">
+            <label for="message">message</label>
+            <textarea id="message" name="message" placeholder="想對 Ame 說的話…" required minlength="10"></textarea>
+            <span class="error" id="message-error" aria-live="polite"></span>
+          </div>
+        </div>
+        <div class="postcard__right">
+          <div class="postcard__stampbox" aria-hidden="true"><img src="images/face-shiro.jpg" alt=""></div>
+          <div class="field" data-field="name">
+            <label for="name">from</label>
+            <input id="name" name="name" type="text" autocomplete="name" placeholder="你的名字" required>
+            <span class="error" id="name-error" aria-live="polite"></span>
+          </div>
+          <div class="field" data-field="email">
+            <label for="email">email</label>
+            <input id="email" name="email" type="email" autocomplete="email" placeholder="you@example.com" required>
+            <span class="error" id="email-error" aria-live="polite"></span>
+          </div>
+          <button class="btn-sticker" type="submit">寄出明信片 ✉</button>
+          <p class="form-status" id="formStatus" role="status"></p>
+        </div>
+        <div class="stamp-mark" aria-hidden="true"><span>已寄出<small>Ame · 2026</small></span></div>
+      </form>
+
+      <div class="contact-extra">
+        <div class="note reveal-up">
+          <h2 style="font-size:var(--fs-lg)">Email</h2>
+          <div class="copy-row">
+            <code id="mail">ame.amane.studio@example.com</code>
+            <button class="btn-ghost" type="button" id="copyMail">複製</button>
+          </div>
+          <p class="form-status" id="copyStatus" role="status"></p>
+        </div>
+        <div class="note reveal-up">
+          <h2 style="font-size:var(--fs-lg)">Social</h2>
+          <p>社群帳號準備中，先用下面的貼紙佔位。</p>
+          <ul class="socials">
+            <li><a class="btn-ghost" href="#">Instagram</a></li>
+            <li><a class="btn-ghost" href="#">Threads</a></li>
+            <li><a class="btn-ghost" href="#">Behance</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span><span class="script">Ame</span> 雨音 · sticker diary 2026</span>
+      <span>Ame 雨音為虛構藝術家，作品皆由 AI 生成 · 網站設計 <span data-designer>（你的名字）</span> × AI</span>
+    </div>
+  </footer>
+
+  <script src="js/works.js"></script>
+  <script src="js/contact.js"></script>
+  <script src="js/effects.js"></script>
+</body>
+</html>

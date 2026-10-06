@@ -1,0 +1,261 @@
+/* =========================================================
+   base.css｜設計變數、方格紙背景、共用元件（階段 1–2）
+   版面概念：一本攤開的拼貼手帳。方格紙是桌面，作品是白邊貼紙，
+   紙膠帶負責「固定」與「分段」，便條紙負責「說話」。
+   ========================================================= */
+
+/* 讓主題色可以「漸變」：註冊成 <color> 型別的自訂屬性 */
+@property --theme-main { syntax: '<color>'; inherits: true; initial-value: #d9727f; }
+@property --theme-accent { syntax: '<color>'; inherits: true; initial-value: #7ec3f0; }
+
+:root {
+  /* ---- 顏色 ---- */
+  --paper: #fffdf9;          /* 方格紙底色 */
+  --paper-2: #fff6ef;        /* 便條紙、明信片 */
+  --ink: #2b2b2b;            /* 墨線 */
+  --ink-soft: #6b6260;       /* 次要文字 */
+  --blush: #f3c4c4;          /* 腮紅粉 */
+  --white: #ffffff;          /* 貼紙白邊 */
+  --theme-main: #d9727f;     /* 目前主題色（會隨角色切換） */
+  --theme-accent: #7ec3f0;   /* 目前點綴色 */
+  --grid-line: color-mix(in srgb, var(--theme-main) 16%, transparent);
+
+  /* ---- 字體 ---- */
+  --font-display: "LXGW WenKai TC", "Kaiti TC", "BiauKai", serif;   /* 手帳手寫感標題 */
+  --font-body: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+  --font-script: "Caveat", "Segoe Print", cursive;                  /* 英文手寫點綴 */
+
+  /* ---- 字級（1.25 比例） ---- */
+  --fs-xs: 0.8rem;
+  --fs-sm: 0.9rem;
+  --fs-md: 1rem;
+  --fs-lg: 1.25rem;
+  --fs-xl: 1.6rem;
+  --fs-2xl: clamp(1.9rem, 1.2rem + 2.4vw, 2.6rem);
+  --fs-hero: clamp(2.2rem, 1.2rem + 4vw, 4rem);
+
+  /* ---- 形狀與陰影 ---- */
+  --radius-sticker: 14px;
+  --sticker-border: 6px;
+  --shadow-sticker: 0 2px 0 rgba(43, 43, 43, .06), 0 6px 14px -6px rgba(60, 30, 30, .28);
+  --shadow-lifted: 0 4px 0 rgba(43, 43, 43, .04), 0 22px 34px -14px rgba(60, 30, 30, .45);
+
+  /* ---- 間距 ---- */
+  --gutter: clamp(16px, 4vw, 48px);
+  --section-gap: clamp(72px, 10vw, 140px);
+  --ease-pop: cubic-bezier(.34, 1.56, .64, 1);   /* 貼紙「啪」地彈一下 */
+  --ease-out: cubic-bezier(.2, .7, .2, 1);
+
+  color-scheme: light;
+  transition: --theme-main .6s ease, --theme-accent .6s ease;
+}
+
+/* 每位角色的主題色：設在 <html data-theme-char="..."> 或任何容器上 */
+[data-char="midori"] { --theme-main: #8b1e1e; --theme-accent: #1e9e6e; }
+[data-char="sumire"] { --theme-main: #6e58a8; --theme-accent: #c9a646; }
+[data-char="shiro"]  { --theme-main: #8a4b2a; --theme-accent: #5fb3a1; }
+[data-char="mimi"]   { --theme-main: #3e8fd0; --theme-accent: #f19ab0; }
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: var(--font-body);
+  font-size: var(--fs-md);
+  line-height: 1.75;
+  color: var(--ink);
+  background-color: var(--paper);
+  /* 方格紙：兩組 linear-gradient 畫出 28px 的格線 */
+  background-image:
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: 28px 28px;
+  background-position: -1px -1px;
+  overflow-x: hidden;
+}
+
+img { max-width: 100%; height: auto; display: block; }
+figure { margin: 0; }
+a { color: inherit; }
+button { font: inherit; color: inherit; cursor: pointer; }
+
+h1, h2, h3 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: 1.25;
+  text-wrap: balance;
+  margin: 0;
+}
+
+:focus-visible {
+  outline: 3px dashed var(--theme-main);
+  outline-offset: 4px;
+  border-radius: 6px;
+}
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.container {
+  width: min(1180px, 100%);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.script {
+  font-family: var(--font-script);
+  font-weight: 600;
+  letter-spacing: .01em;
+}
+
+/* ---------------------------------------------------------
+   元件：白邊貼紙
+   --------------------------------------------------------- */
+.sticker {
+  position: relative;
+  background: var(--white);
+  padding: var(--sticker-border);
+  border-radius: var(--radius-sticker);
+  box-shadow: var(--shadow-sticker);
+}
+.sticker img {
+  width: 100%;
+  border-radius: calc(var(--radius-sticker) - 5px);
+}
+
+/* 圓形小貼紙（emoji、頭像、愛心） */
+.dot-sticker {
+  display: grid;
+  place-items: center;
+  width: var(--size, 56px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--white);
+  box-shadow: var(--shadow-sticker);
+  font-size: calc(var(--size, 56px) * .52);
+  line-height: 1;
+  overflow: hidden;
+}
+.dot-sticker img { width: 100%; height: 100%; object-fit: cover; border: 4px solid var(--white); border-radius: 50%; }
+
+/* ---------------------------------------------------------
+   元件：格紋紙膠帶（顏色跟著 --tape 或主題色）
+   --------------------------------------------------------- */
+.tape {
+  --tape: var(--theme-main);
+  display: block;
+  width: var(--tape-w, 110px);
+  height: 26px;
+  background:
+    repeating-linear-gradient(90deg, color-mix(in srgb, var(--tape) 55%, transparent) 0 6px, transparent 6px 14px),
+    repeating-linear-gradient(0deg, color-mix(in srgb, var(--tape) 45%, transparent) 0 6px, transparent 6px 14px),
+    color-mix(in srgb, var(--tape) 22%, rgba(255, 255, 255, .55));
+  opacity: .9;
+  /* 兩端做出撕開的鋸齒 */
+  clip-path: polygon(0 8%, 4% 0, 8% 10%, 12% 0, 100% 0, 96% 12%, 100% 26%, 97% 42%, 100% 58%, 96% 74%, 100% 90%, 96% 100%, 0 100%, 4% 86%, 0 70%, 3% 52%, 0 36%, 4% 20%);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, .06);
+}
+
+/* ---------------------------------------------------------
+   元件：手寫便條紙
+   --------------------------------------------------------- */
+.note {
+  position: relative;
+  background:
+    repeating-linear-gradient(transparent 0 31px, color-mix(in srgb, var(--theme-main) 18%, transparent) 31px 32px),
+    var(--paper-2);
+  padding: 28px 26px 24px;
+  border-radius: 4px;
+  box-shadow: var(--shadow-sticker);
+  font-family: var(--font-display);
+  line-height: 32px;
+}
+
+/* ---------------------------------------------------------
+   元件：貼紙按鈕
+   --------------------------------------------------------- */
+.btn-sticker {
+  display: inline-flex;
+  align-items: center;
+  gap: .5em;
+  min-height: 48px;
+  padding: .55em 1.4em;
+  border: 3px solid var(--white);
+  border-radius: 999px;
+  background: var(--theme-main);
+  color: var(--white);
+  font-family: var(--font-display);
+  font-size: var(--fs-lg);
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: var(--shadow-sticker), 0 0 0 2px color-mix(in srgb, var(--theme-main) 30%, transparent);
+  transition: transform .25s var(--ease-pop), box-shadow .25s ease;
+}
+.btn-sticker:hover { transform: translateY(-3px) rotate(-2deg); box-shadow: var(--shadow-lifted); }
+.btn-sticker:active { transform: scale(.96); }
+
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: .4em;
+  min-height: 44px;
+  padding: .4em 1em;
+  border: 2px dashed color-mix(in srgb, var(--ink) 35%, transparent);
+  border-radius: 999px;
+  background: var(--white);
+  font-family: var(--font-display);
+  font-size: var(--fs-md);
+  text-decoration: none;
+  transition: transform .2s var(--ease-pop), border-color .2s;
+}
+.btn-ghost:hover { transform: rotate(-2deg) scale(1.04); border-color: var(--theme-main); }
+
+/* ---------------------------------------------------------
+   區塊標題：標題＋底下一段紙膠帶
+   --------------------------------------------------------- */
+.section { padding-block: var(--section-gap) 0; }
+.section-head { display: grid; gap: 6px; margin-bottom: clamp(28px, 4vw, 48px); }
+.section-head .eyebrow {
+  font-family: var(--font-script);
+  font-size: var(--fs-xl);
+  color: var(--theme-main);
+  line-height: 1;
+}
+.section-head h2 { font-size: var(--fs-2xl); }
+.section-head .tape { --tape-w: clamp(140px, 22vw, 220px); margin-top: 4px; }
+.section-head p { margin: 6px 0 0; max-width: 58ch; color: var(--ink-soft); }
+
+/* ---------------------------------------------------------
+   頁尾
+   --------------------------------------------------------- */
+.site-footer {
+  margin-top: var(--section-gap);
+  padding-block: 40px;
+  border-top: 2px dashed color-mix(in srgb, var(--theme-main) 35%, transparent);
+  background: color-mix(in srgb, var(--paper) 88%, transparent);
+  font-size: var(--fs-sm);
+  color: var(--ink-soft);
+}
+.site-footer .container { display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: space-between; align-items: center; }
+.site-footer .script { font-size: var(--fs-lg); color: var(--theme-main); }
+
+/* ---------------------------------------------------------
+   動態減少：使用者系統設定「減少動態效果」時，動畫幾乎關閉
+   --------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+    transition-delay: 0s !important;
+    scroll-behavior: auto !important;
+  }
+}

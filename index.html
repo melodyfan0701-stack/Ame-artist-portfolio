@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Ame 雨音 貼紙手帳</title>
+  <meta name="description" content="虛構藝術家 Ame 雨音的 AI 角色插畫作品集：四位女孩的貼紙手帳。">
+  <script>document.documentElement.classList.add('js');</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=LXGW+WenKai+TC:wght@400;700&family=Noto+Sans+TC:wght@400;500;700&display=swap">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/hero.css">
+  <link rel="stylesheet" href="css/gallery.css">
+  <link rel="stylesheet" href="css/lightbox.css">
+  <link rel="stylesheet" href="css/effects.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body class="page-home">
+
+  <!-- ========== 導覽列 ========== -->
+  <header class="site-nav" id="siteNav">
+    <div class="container">
+      <a class="logo" href="index.html#home" aria-label="Ame 雨音 首頁">
+        <svg class="heart" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 28s-11-6.6-11-15A6 6 0 0 1 16 9a6 6 0 0 1 11 4c0 8.4-11 15-11 15z" fill="#f19ab0" stroke="#fff" stroke-width="3" paint-order="stroke"/></svg>
+        <span class="script">Ame</span> 雨音
+      </a>
+      <nav aria-label="主要導覽">
+        <ul class="nav-links">
+          <li><a href="index.html#home" data-section="home">Home</a></li>
+          <li><a href="index.html#works" data-section="works">Works</a></li>
+          <li><a href="index.html#exhibition" data-section="exhibition">Exhibition</a></li>
+          <li><a href="about.html" data-page="about">About</a></li>
+          <li><a href="contact.html" data-page="contact">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- ========== Hero 主視覺 ========== -->
+    <section class="hero" id="home" aria-labelledby="heroTitle">
+      <div class="container">
+        <div class="hero-text">
+          <p class="hero-kicker" style="--d:.8s"><span class="tape" aria-hidden="true"></span>sticker diary · 2026</p>
+          <h1 class="hero-title" id="heroTitle" style="--d:.9s">把心情做成<mark>貼紙</mark>，<br>收進手帳裡</h1>
+          <p class="hero-sub" style="--d:1.05s">Ame 雨音｜AI 角色插畫作品集。四位女孩，各自有一本用格紋和表情貼紙寫成的日記。</p>
+          <div class="hero-actions" style="--d:1.2s">
+            <a class="btn-sticker" href="#works">翻開手帳 <span aria-hidden="true">→</span></a>
+            <a class="btn-ghost" href="about.html">認識四位女孩</a>
+          </div>
+        </div>
+
+        <div class="hero-collage" aria-label="作品拼貼">
+          <figure class="hero-side hero-side--a sticker" style="--d:.45s; --fall:-18deg" data-speed="0.18">
+            <span class="tape" aria-hidden="true"></span>
+            <img src="images/mimi-02.jpg" alt="Mimi《比心》縮圖" width="1024" height="1024">
+          </figure>
+          <figure class="hero-side hero-side--b sticker" style="--d:.6s; --fall:16deg" data-speed="0.12">
+            <span class="tape" aria-hidden="true"></span>
+            <img src="images/sumire-02.jpg" alt="Sumire《金玫瑰》縮圖" width="1024" height="1024">
+          </figure>
+          <figure class="hero-main sticker" style="--d:0s">
+            <span class="tape" aria-hidden="true"></span>
+            <img src="images/midori-01.jpg" alt="Midori《格紋心事》：綠色長髮女孩穿紅格紋裙，臉頰貼著愛心貼紙" width="1024" height="1024" fetchpriority="high">
+          </figure>
+
+          <!-- 散落的裝飾貼紙：data-speed 給視差使用（階段 5） -->
+          <span class="deco dot-sticker" style="--size:62px; top:2%; left:30%; --r:-12deg; --d:.7s" data-speed="0.35" aria-hidden="true">🥺</span>
+          <span class="deco" style="width:54px; height:54px; top:46%; right:-4%; --r:14deg; --d:.8s" data-speed="0.5" aria-hidden="true">
+            <svg viewBox="0 0 32 32"><path d="M16 28s-11-6.6-11-15A6 6 0 0 1 16 9a6 6 0 0 1 11 4c0 8.4-11 15-11 15z" fill="#e2463f" stroke="#fff" stroke-width="3.5" paint-order="stroke"/></svg>
+          </span>
+          <span class="deco dot-sticker" style="--size:70px; bottom:4%; right:4%; --r:8deg; --d:.9s" data-speed="0.25" aria-hidden="true"><img src="images/face-midori.jpg" alt=""></span>
+          <span class="deco" style="width:44px; height:44px; top:30%; left:2%; --r:-8deg; --d:1s" data-speed="0.6" aria-hidden="true">
+            <svg viewBox="0 0 32 32"><path d="M16 2l3.6 9.2L29 12l-7.2 6.2L24 28l-8-5.2L8 28l2.2-9.8L3 12l9.4-.8z" fill="#f6c445" stroke="#fff" stroke-width="3" paint-order="stroke" stroke-linejoin="round"/></svg>
+          </span>
+          <span class="deco dot-sticker" style="--size:52px; bottom:-3%; left:56%; --r:10deg; --d:1.1s" data-speed="0.45" aria-hidden="true">🍒</span>
+          <span class="deco dot-sticker" style="--size:48px; top:-2%; right:28%; --r:-6deg; --d:1.2s" data-speed="0.3" aria-hidden="true">😊</span>
+        </div>
+      </div>
+
+      <a class="scroll-hint" href="#works" style="--d:1.6s">
+        <span class="dot-sticker" aria-hidden="true"><img src="images/face-mimi.jpg" alt=""></span>
+        scroll
+      </a>
+    </section>
+
+    <!-- ========== Gallery（階段 3） ========== -->
+    <section class="section" id="works" aria-labelledby="worksTitle">
+      <!-- 背景視差貼紙 -->
+      <span class="float-sticker dot-sticker" style="--size:84px; top:120px; right:4%; --r:12deg" data-speed="0.6" aria-hidden="true">🎀</span>
+      <span class="float-sticker dot-sticker" style="--size:64px; top:46%; left:1.5%; --r:-10deg" data-speed="0.45" aria-hidden="true">🥹</span>
+      <span class="float-sticker dot-sticker" style="--size:76px; top:72%; right:1.5%; --r:8deg" data-speed="0.55" aria-hidden="true"><img src="images/face-sumire.jpg" alt=""></span>
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">works</span>
+          <h2 id="worksTitle">作品集</h2>
+          <span class="tape" aria-hidden="true"></span>
+          <p class="reveal-up">四位女孩，四種配色。點上方的索引標籤切換角色，整本手帳會換成她的顏色。</p>
+        </div>
+
+        <div class="gallery-bar">
+          <ul class="tabs" aria-label="依角色篩選作品">
+            <li><button class="tab" type="button" data-filter="all" aria-pressed="true"><span class="dot-sticker" aria-hidden="true">♡</span>All <span class="count"></span></button></li>
+            <li><button class="tab" type="button" data-filter="midori" aria-pressed="false"><span class="dot-sticker" aria-hidden="true"><img src="images/face-midori.jpg" alt=""></span>Midori <span class="count"></span></button></li>
+            <li><button class="tab" type="button" data-filter="sumire" aria-pressed="false"><span class="dot-sticker" aria-hidden="true"><img src="images/face-sumire.jpg" alt=""></span>Sumire <span class="count"></span></button></li>
+            <li><button class="tab" type="button" data-filter="shiro" aria-pressed="false"><span class="dot-sticker" aria-hidden="true"><img src="images/face-shiro.jpg" alt=""></span>Shiro <span class="count"></span></button></li>
+            <li><button class="tab" type="button" data-filter="mimi" aria-pressed="false"><span class="dot-sticker" aria-hidden="true"><img src="images/face-mimi.jpg" alt=""></span>Mimi <span class="count"></span></button></li>
+          </ul>
+          <div class="gallery-tools">
+            <span class="gallery-count" id="galleryCount" aria-live="polite"></span>
+            <button class="btn-ghost" type="button" id="fsAll">
+              <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              全螢幕瀏覽
+            </button>
+          </div>
+        </div>
+
+        <div class="gallery" id="gallery"></div>
+      </div>
+    </section>
+
+    <!-- ========== Exhibition 線上手帳展（階段 6）：往下捲，展牆往左移動 ========== -->
+    <section class="section exhibit" id="exhibition" aria-labelledby="exTitle">
+      <span class="float-sticker dot-sticker" style="--size:70px; top:40px; right:8%; --r:-8deg" data-speed="0.5" aria-hidden="true">✨</span>
+      <div class="exhibit__pin" id="exhibitPin">
+        <div class="exhibit__sticky">
+          <div class="container">
+            <div class="section-head">
+              <span class="eyebrow">exhibition</span>
+              <h2 id="exTitle">2026 線上手帳展</h2>
+              <span class="tape" aria-hidden="true"></span>
+              <p class="reveal-up">四個展區，一位女孩一面牆。繼續往下捲，展牆會往左移動；手機上可以左右滑。</p>
+            </div>
+          </div>
+          <div class="exhibit__track" id="exhibitTrack">
+            <div class="exhibit__intro note">
+              <span class="script">sticker diary exhibition</span>
+              <h3>四位女孩的貼紙日記</h3>
+              <p>Online · 2026<br>展出 9 件 AI 角色插畫<br>點展區裡的小圖可以放大檢視</p>
+              <span class="exhibit__arrow" aria-hidden="true">→</span>
+            </div>
+            <!-- 展區由 js/exhibition.js 依角色資料產生 -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== About / Contact 預覽 ========== -->
+    <section class="section" id="hello" aria-labelledby="helloTitle">
+      <div class="container hello">
+        <div class="hello__note note reveal-up">
+          <span class="script">about the artist</span>
+          <h2 id="helloTitle">Ame 雨音</h2>
+          <p>Ame 雨音是一位虛構的插畫家。她把每天的心情做成貼紙，貼進四位女孩的手帳裡。本站作品皆由 AI 生成，網站設計與互動由人與 AI 協作完成。</p>
+          <a class="btn-ghost" href="about.html">認識四位女孩 →</a>
+        </div>
+        <a class="hello__postcard reveal-up" href="contact.html">
+          <span class="hello__stamp" aria-hidden="true"><img src="images/face-mimi.jpg" alt=""></span>
+          <span class="script">write me a postcard</span>
+          <strong>寄一張明信片給 Ame</strong>
+          <span>合作邀約、展覽或只是想打聲招呼 →</span>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span><span class="script">Ame</span> 雨音 · sticker diary 2026</span>
+      <span>Ame 雨音為虛構藝術家，作品皆由 AI 生成 · 網站設計 <span data-designer>（你的名字）</span> × AI</span>
+    </div>
+  </footer>
+
+  <script src="js/works.js"></script>
+  <script src="js/hero.js"></script>
+  <script src="js/gallery.js"></script>
+  <script src="js/lightbox.js"></script>
+  <script src="js/exhibition.js"></script>
+  <script src="js/effects.js"></script>
+</body>
+</html>

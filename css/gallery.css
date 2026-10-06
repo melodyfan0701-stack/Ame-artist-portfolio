@@ -1,0 +1,161 @@
+/* =========================================================
+   gallery.css｜作品集瀑布流與索引標籤篩選（階段 3）
+   ========================================================= */
+
+[hidden] { display: none !important; }
+
+.gallery-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 28px;
+  border-bottom: 3px solid var(--theme-main);
+}
+
+/* ---- 索引標籤（手帳側邊的分頁貼） ---- */
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.tab {
+  --tab: var(--ink-soft);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 48px;
+  padding: 6px 16px 6px 8px;
+  border: 0;
+  border-radius: 14px 14px 0 0;
+  background: color-mix(in srgb, var(--tab) 14%, var(--white));
+  font-family: var(--font-display);
+  font-size: var(--fs-md);
+  font-weight: 700;
+  color: var(--ink);
+  transform: translateY(6px);   /* 未選取的標籤收在下面 */
+  transition: transform .3s var(--ease-pop), background-color .3s ease, color .3s ease;
+}
+.tab .dot-sticker { --size: 34px; font-size: 18px; color: var(--tab); }
+.tab .count {
+  font-family: var(--font-script);
+  font-size: var(--fs-lg);
+  font-weight: 700;
+  line-height: 1;
+  opacity: .7;
+}
+.tab:hover { transform: translateY(1px); }
+.tab[aria-pressed="true"] {
+  background: var(--tab);
+  color: var(--white);
+  transform: translateY(0);     /* 選中的標籤往外凸出，和下方的線接在一起 */
+}
+.tab[data-filter="midori"] { --tab: #8b1e1e; }
+.tab[data-filter="sumire"] { --tab: #6e58a8; }
+.tab[data-filter="shiro"]  { --tab: #8a4b2a; }
+.tab[data-filter="mimi"]   { --tab: #3e8fd0; }
+.tab[data-filter="all"]    { --tab: #d9727f; }
+
+/* 點擊時彈一下：0.95 → 1.05 → 1 */
+.tab.is-bounce { animation: tab-bounce .45s var(--ease-pop); }
+@keyframes tab-bounce {
+  0% { scale: 1; }
+  30% { scale: .95; }
+  65% { scale: 1.05; }
+  100% { scale: 1; }
+}
+
+.gallery-tools { display: flex; align-items: center; gap: 12px; padding-bottom: 10px; }
+.gallery-count { font-family: var(--font-script); font-size: var(--fs-xl); color: var(--theme-main); line-height: 1; }
+
+/* ---- 瀑布流 ----
+   用 CSS Grid 做：每一列只有 4px 高，卡片依自己的高度跨幾列（JS 計算 --span）。
+   好處是作品「由左到右」排，篩選後只剩 2 張時也會並排，不會擠在同一欄。 */
+.gallery {
+  --row: 4px;
+  --gap-y: clamp(26px, 3.5vw, 44px);
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-auto-rows: var(--row);
+  column-gap: clamp(20px, 3vw, 36px);
+  align-items: start;
+}
+
+.card {
+  grid-row-end: span var(--span, 100);
+  min-width: 0;
+}
+
+/* 三層結構：
+   .card          → 篩選動畫（淡出、FLIP 位移、淡入）
+   .card__inner   → 捲動時「貼上」的動畫（effects.css）
+   .card__sticker → 傾斜角度與 hover 動作 */
+.card__sticker {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: var(--sticker-border);
+  border: 0;
+  border-radius: var(--radius-sticker);
+  background: var(--white);
+  box-shadow: var(--shadow-sticker);
+  text-align: left;
+  rotate: var(--tilt, 0deg);
+}
+.card__sticker img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: calc(var(--radius-sticker) - 5px);
+}
+.card[data-aspect="tall"] .card__sticker img { aspect-ratio: 4 / 5; }
+.card[data-aspect="wide"] .card__sticker img { aspect-ratio: 5 / 4; }
+
+.card__sticker .tape {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  translate: -50% 0;
+  rotate: calc(var(--tilt, 0deg) * -2);
+  --tape: var(--card-main);
+  --tape-w: 96px;
+  height: 24px;
+  z-index: 2;
+}
+
+.card__caption {
+  display: grid;
+  gap: 2px;
+  padding: 12px 6px 0;
+}
+.card__title-row { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
+.card__title { font-size: var(--fs-lg); }
+.card__title a { text-decoration: none; background: linear-gradient(var(--card-accent), var(--card-accent)) 0 100% / 0 3px no-repeat; transition: background-size .3s var(--ease-out); }
+.card__title a:hover { background-size: 100% 3px; }
+.card__year { font-family: var(--font-script); font-size: var(--fs-lg); color: var(--ink-soft); line-height: 1; }
+.card__meta { display: flex; align-items: center; gap: 8px; font-size: var(--fs-sm); color: var(--ink-soft); }
+.chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 0 10px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--card-main) 14%, var(--white));
+  color: var(--card-main);
+  font-family: var(--font-script);
+  font-size: var(--fs-md);
+  font-weight: 700;
+  line-height: 1.6;
+}
+.card__desc {
+  margin: 0;
+  font-size: var(--fs-sm);
+  color: var(--ink-soft);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}

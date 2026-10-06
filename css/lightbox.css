@@ -1,0 +1,185 @@
+/* =========================================================
+   lightbox.css｜Lightbox 燈箱與全螢幕畫廊（階段 4）
+   ========================================================= */
+
+@property --lb-main { syntax: '<color>'; inherits: true; initial-value: #8b1e1e; }
+@property --lb-accent { syntax: '<color>'; inherits: true; initial-value: #1e9e6e; }
+
+body.is-locked { overflow: hidden; }
+
+/* 縮圖被點到時先放大一點（Timeline 第 1 步） */
+.card__sticker.is-picked { transform: scale(1.05); transition: transform .15s ease-out; }
+
+/* ---------------------------------------------------------
+   Lightbox
+   --------------------------------------------------------- */
+.lightbox {
+  --lb-main: #8b1e1e;
+  --lb-accent: #1e9e6e;
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  padding: max(16px, env(safe-area-inset-top, 0px)) 16px max(16px, env(safe-area-inset-bottom, 0px));
+  visibility: hidden;
+  transition: --lb-main .5s ease, --lb-accent .5s ease, visibility 0s linear .35s;
+}
+.lightbox.is-open { visibility: visible; transition: --lb-main .5s ease, --lb-accent .5s ease, visibility 0s; }
+
+/* 遮罩：該角色主題色的半透明格紋（Timeline 第 2 步：opacity 0→1） */
+.lightbox__backdrop {
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-linear-gradient(90deg, color-mix(in srgb, var(--lb-main) 30%, transparent) 0 22px, transparent 22px 54px),
+    repeating-linear-gradient(0deg, color-mix(in srgb, var(--lb-main) 26%, transparent) 0 22px, transparent 22px 54px),
+    color-mix(in srgb, var(--lb-main) 62%, #1c1416);
+  opacity: 0;
+  transition: opacity .3s ease;
+}
+.lightbox.is-open .lightbox__backdrop { opacity: .96; }
+
+/* 內容：大圖＋便條紙（Timeline 第 3 步：scale 0.9→1） */
+.lightbox__panel {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, auto) minmax(260px, 340px);
+  align-items: center;
+  gap: clamp(20px, 3vw, 40px);
+  width: min(1120px, 100%);
+  max-height: 100%;
+  opacity: 0;
+  transform: scale(.9);
+  transition: opacity .35s var(--ease-out), transform .35s var(--ease-out);
+}
+.lightbox.is-open .lightbox__panel { opacity: 1; transform: scale(1); transition-delay: .15s; }
+
+.lightbox__figure {
+  justify-self: end;
+  rotate: -1.5deg;
+}
+.lightbox__figure img {
+  width: auto;
+  max-width: 100%;
+  max-height: calc(100svh - 120px);
+  aspect-ratio: 1 / 1;
+  object-fit: contain;
+  background: var(--paper);
+}
+.lightbox__figure .tape { position: absolute; top: -12px; left: 50%; translate: -50% 0; rotate: 3deg; --tape: var(--lb-accent); --tape-w: 120px; z-index: 2; }
+
+.lightbox__note {
+  --theme-main: var(--lb-main);
+  rotate: 1.5deg;
+  display: grid;
+  gap: 4px;
+  max-height: calc(100svh - 120px);
+  overflow: auto;
+}
+.lightbox__note .who { display: flex; align-items: center; gap: 10px; font-family: var(--font-script); font-size: var(--fs-xl); color: var(--lb-main); line-height: 1.2; }
+.lightbox__note .who .dot-sticker { --size: 44px; }
+.lightbox__note h2 { font-size: var(--fs-2xl); line-height: 1.3; }
+.lightbox__note .year { font-family: var(--font-script); font-size: var(--fs-lg); color: var(--ink-soft); }
+.lightbox__note p { margin: 0; font-size: var(--fs-md); }
+.lightbox__note .counter { font-family: var(--font-script); font-size: var(--fs-lg); color: var(--ink-soft); }
+.lightbox__actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; }
+.lightbox__actions .btn-sticker { --theme-main: var(--lb-main); font-size: var(--fs-md); }
+
+/* 圓形貼紙按鈕：關閉、上一張、下一張 */
+.round-btn {
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  border: 4px solid var(--white);
+  border-radius: 50%;
+  background: var(--paper-2);
+  color: var(--ink);
+  font-size: 22px;
+  line-height: 1;
+  box-shadow: var(--shadow-sticker);
+  transition: transform .25s var(--ease-pop), background-color .2s;
+}
+.round-btn:hover { transform: scale(1.12) rotate(-8deg); background: var(--white); }
+.round-btn svg { width: 22px; height: 22px; }
+
+.lightbox__close { position: absolute; top: max(16px, env(safe-area-inset-top, 0px)); right: 16px; z-index: 3; }
+.lightbox__prev,
+.lightbox__next { position: absolute; top: 50%; translate: 0 -50%; z-index: 3; }
+.lightbox__prev { left: clamp(8px, 2vw, 28px); }
+.lightbox__next { right: clamp(8px, 2vw, 28px); }
+
+/* ---------------------------------------------------------
+   全螢幕畫廊
+   --------------------------------------------------------- */
+.fs {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: grid;
+  place-items: center;
+  background-color: #1d1820;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, .05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, .05) 1px, transparent 1px);
+  background-size: 28px 28px;
+  color: var(--white);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .4s ease, visibility 0s linear .4s;
+  perspective: 1600px;          /* 翻頁轉場需要透視 */
+  touch-action: pan-y;
+}
+.fs.is-open { opacity: 1; visibility: visible; transition: opacity .4s ease, visibility 0s; }
+.fs.is-idle { cursor: none; }
+
+.fs__stage {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  padding: 24px 24px 96px;
+}
+.fs__img {
+  max-width: min(92vw, 100%);
+  max-height: calc(100svh - 140px);
+  width: auto;
+  border: 8px solid var(--white);
+  border-radius: 12px;
+  box-shadow: 0 30px 60px -20px rgba(0, 0, 0, .7);
+  transform-origin: center;
+  backface-visibility: hidden;
+}
+.fs__caption {
+  position: absolute;
+  top: max(20px, env(safe-area-inset-top, 0px));
+  left: 24px;
+  font-family: var(--font-display);
+  font-size: var(--fs-lg);
+}
+.fs__caption .script { color: var(--blush); font-size: 1.2em; margin-right: 8px; }
+
+/* 控制列：滑鼠移動時出現，靜止 2 秒淡出 */
+.fs__bar {
+  position: absolute;
+  left: 50%;
+  bottom: max(20px, env(safe-area-inset-bottom, 0px));
+  translate: -50% 0;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .12);
+  backdrop-filter: blur(8px);
+  transition: opacity .4s ease, transform .4s ease;
+}
+.fs__bar .round-btn { width: 48px; height: 48px; border-width: 3px; }
+.fs__count { min-width: 4.5em; text-align: center; font-family: var(--font-script); font-size: var(--fs-xl); line-height: 1; }
+.fs__caption { transition: opacity .4s ease; }
+.fs.is-idle .fs__bar { opacity: 0; transform: translateY(16px); }
+.fs.is-idle .fs__caption { opacity: 0; }
+
+.fs__hint { position: absolute; right: 24px; top: max(24px, env(safe-area-inset-top, 0px)); font-size: var(--fs-sm); opacity: .7; }
+.fs.is-idle .fs__hint { opacity: 0; }

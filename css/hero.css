@@ -1,0 +1,163 @@
+/* =========================================================
+   hero.css｜首頁主視覺與導覽列基本樣式（階段 2）
+   ========================================================= */
+
+/* ---- 導覽列（基本排版；互動在 effects.css） ---- */
+.site-nav {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 50;
+  padding-top: env(safe-area-inset-top, 0px);
+}
+.site-nav .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: 76px;
+}
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-display);
+  font-size: var(--fs-xl);
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.logo .script { font-size: 1.15em; color: var(--theme-main); }
+.logo .heart { width: 22px; height: 22px; transition: transform .3s var(--ease-pop); }
+.logo:hover .heart { transform: scale(1.25) rotate(-12deg); }
+
+.nav-links { display: flex; gap: 6px; margin: 0; padding: 0; list-style: none; }
+
+/* ---- Hero ---- */
+.hero {
+  position: relative;
+  padding-top: calc(96px + env(safe-area-inset-top, 0px));
+  padding-bottom: 40px;
+  min-height: min(100svh, 900px);
+  display: grid;
+  align-items: center;
+}
+.hero .container {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+  align-items: center;
+  gap: clamp(24px, 5vw, 72px);
+}
+
+.hero-text { display: grid; gap: 18px; justify-items: start; }
+.hero-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-script);
+  font-size: var(--fs-xl);
+  color: var(--theme-main);
+  line-height: 1;
+}
+.hero-kicker .tape { --tape-w: 56px; height: 18px; }
+.hero-title {
+  font-size: var(--fs-hero);
+  line-height: 1.18;
+  letter-spacing: .02em;
+}
+/* 標題裡被螢光筆畫過的字 */
+.hero-title mark {
+  background: linear-gradient(transparent 58%, color-mix(in srgb, var(--theme-accent) 55%, transparent) 58% 92%, transparent 92%);
+  color: inherit;
+  padding-inline: .06em;
+}
+.hero-sub { margin: 0; font-size: var(--fs-lg); color: var(--ink-soft); max-width: 30ch; }
+.hero-actions { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-top: 6px; }
+
+/* ---- 右側拼貼 ---- */
+.hero-collage {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  width: min(100%, 560px);
+  justify-self: center;
+}
+.hero-main {
+  position: absolute;
+  top: 9%;
+  left: 13%;
+  width: 76%;
+  rotate: -2deg;
+  z-index: 3;
+}
+.hero-main .tape { position: absolute; top: -14px; left: 50%; translate: -50% 0; rotate: -4deg; --tape: #8b1e1e; --tape-w: 130px; z-index: 2; }
+.hero-side {
+  position: absolute;
+  width: 38%;
+  z-index: 2;
+}
+.hero-side--a { left: -4%; bottom: -2%; rotate: -9deg; }
+.hero-side--b { right: -6%; top: -2%; rotate: 8deg; z-index: 1; }
+.hero-side--a .tape { position: absolute; top: -10px; left: 18%; rotate: 12deg; --tape: #3e8fd0; --tape-w: 70px; height: 20px; }
+.hero-side--b .tape { position: absolute; top: -10px; right: 14%; rotate: -10deg; --tape: #6e58a8; --tape-w: 70px; height: 20px; }
+
+/* 散落的小貼紙 */
+.deco {
+  position: absolute;
+  z-index: 4;
+  rotate: var(--r, 0deg);
+}
+.deco svg { width: 100%; height: 100%; }
+
+/* ---- 捲動指引 ---- */
+.scroll-hint {
+  position: absolute;
+  left: 50%;
+  bottom: 18px;
+  translate: -50% 0;
+  display: grid;
+  justify-items: center;
+  gap: 2px;
+  text-decoration: none;
+  font-family: var(--font-script);
+  font-size: var(--fs-lg);
+  color: var(--ink-soft);
+}
+.scroll-hint .dot-sticker { --size: 46px; }
+.scroll-hint.is-bouncing .dot-sticker { animation: hint-bounce 1.6s ease-in-out infinite; }
+@keyframes hint-bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(8px); }
+}
+
+/* =========================================================
+   進場動畫 Timeline（只在 JS 啟用時隱藏初始狀態）
+   0.0s 主圖 scale 1.1→1 + opacity
+   0.5s 小貼紙依序「啪」地貼上
+   0.8s 主標題上移淡入 → 1.0s 副標題、按鈕
+   1.3s 導覽列淡入 → 1.6s 捲動指引
+   ========================================================= */
+.js .hero-main { opacity: 0; transform: scale(1.1); }
+.js .hero-side { opacity: 0; transform: translateY(-60px) rotate(var(--fall, -14deg)); }
+.js .deco { opacity: 0; transform: scale(0); }
+.js .hero-text > * { opacity: 0; transform: translateY(30px); }
+.js .page-home .site-nav:not(.is-entered) { opacity: 0; transform: translateY(-12px); }
+.js .scroll-hint { opacity: 0; }
+
+.hero-main,
+.hero-side,
+.deco,
+.hero-text > *,
+.site-nav,
+.scroll-hint {
+  transition:
+    opacity .7s var(--ease-out) var(--d, 0s),
+    transform .8s var(--ease-out) var(--d, 0s);
+}
+.deco { transition-timing-function: ease, var(--ease-pop); transition-duration: .3s, .5s; }
+
+.is-entered .hero-main,
+.is-entered .hero-side,
+.is-entered .deco,
+.is-entered .hero-text > *,
+.is-entered .scroll-hint,
+.is-entered.site-nav,
+.is-entered .site-nav { opacity: 1; transform: none; }
